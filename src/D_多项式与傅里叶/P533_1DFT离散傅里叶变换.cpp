@@ -26,12 +26,9 @@ vector<Complex> DFT(const vector<Complex>& a) {
 int main() {
     // 示例输入
     vector<Complex> a = {1,1,0,1}; // 输入系数向量
-
     // 计算DFT
     vector<Complex> y = DFT(a);
-
     // 输出结果
-    
     cout << "DFT结果:\n";
     for (const auto& coeff : y) {
         cout << coeff << endl; // 输出为复数

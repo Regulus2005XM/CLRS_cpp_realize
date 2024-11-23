@@ -4,6 +4,7 @@ using namespace std;
  * @Name 卷积(convolution)
  * @Input 向量a和b
  * @Output 向量c
+ * @Hint 这个函数不使用傅里叶变换，只是普通的卷积计算
  * @Change convolutionC，用于计算复数向量的卷积
  */ 
 vector<double> convolution(const vector<double>& a, const vector<double>& b) {
