@@ -1,83 +1,61 @@
 #include <bits/stdc++.h>
+/**
+ * @Date 2024/11/23 20:14
+ */
 using namespace std;
+typedef long long lint;
+const double PI = 3.14159265358979323846;
 
-const int INF = 0x7f7f7f7f;
-
-struct Edge {
-    int v;
-    long long capacity;
-    long long flow;
-};
-
-struct Graph {
-    vector<Edge> adj[101];
-    
-    void addEdge(int u, int v, long long w) {
-        Edge a = {v, w, 0};
-        Edge b = {u, 0};
-        adj[u].push_back(a);
-        adj[v].push_back(b);
+complex<double> func(const vector<int>& ci, int n2, const complex<double>& x) {
+    complex<double> res(0, 0);
+    for (int k = 0; k < n2; k++) {
+        res += static_cast<complex<double>>(ci[k]) * pow(x, k);
     }
-    int bfs(int source, int sink, vector<int>& parent) {
-        fill(parent.begin(), parent.end(), -1); 
-        parent[source] = -2;
-        queue<pair<int, long long>> q;
-        q.push({source, INF});
-        while (!q.empty()) {
-            int u = q.front().first;
-            long long flow = q.front().second;
-            q.pop();
+    return res;
+}
 
-            for (Edge& edge : adj[u]) {
-                if (parent[edge.v] == -1 && edge.flow < edge.capacity) {
-                    parent[edge.v] = u;
-                    long long new_flow = min(flow, edge.capacity - edge.flow);
-                    if (edge.v == sink) {
-                        return new_flow;
-                    }
-                    q.push({edge.v, new_flow});
-                }
-            }
+static int readInt() {
+    int x = 0;
+    int sign = 1;
+    char c;
+    while (true) {
+        c = getchar();
+        if (c == '-') {
+            sign = -1;
+            c = getchar();
+            break;
         }
-        return 0;
+        if (isdigit(c)) break;
     }
-    // Edmonds-Karp
-    long long edmondsKarp(int source, int sink) {
-        long long totalFlow = 0;
-        vector<int> parent(101);
-        long long newFlow;
-        while ((newFlow = bfs(source, sink, parent)) > 0) {
-            totalFlow += newFlow;
-            int curr = sink;
-            while (curr != source) {
-                int prev = parent[curr];
-                for (Edge& edge : adj[prev]) {
-                    if (edge.v == curr) {
-                        edge.flow += newFlow;
-                    }
-                }
-                for (Edge& edge : adj[curr]) {
-                    if (edge.v == prev) {
-                        edge.flow -= newFlow;
-                    }
-                }
-                curr = prev;
-            }
-        }
-        return totalFlow;
-    }
-};
+    do {
+        x = x * 10 + (c - '0');
+        c = getchar();
+    } while (isdigit(c));
+    return x * sign;
+}
 
-int main() {int T;cin >> T;for (int i = 0; i < T; i++) {
-        int n, m, s, t;
-        cin >> n >> m >> s >> t;
-        Graph g;
-        for (int j = 0; j < m; ++j) {
-            int u, v;
-            long long w;
-            scanf("%d%d%lld", &u, &v, &w);
-            g.addEdge(u, v, w);
-        }
-        long long maxFlow = g.edmondsKarp(s, t);
-        cout << maxFlow << endl;
-}return 0;}
+int main() {
+    int n;
+    cin >> n;
+    int n2 = 1 << n;
+
+    vector<int> ci(n2);
+    for (int i = 0; i < n2; i++) {
+        ci[i] = readInt();
+    }
+
+    double o1 = cos(2 * PI / n2);
+    double o2 = sin(2 * PI / n2);
+    complex<double> omiga(o1, o2);
+    complex<double> z(0.0, 0.0);
+
+    complex<double> currentOmiga(1.0, 0.0);
+
+    for (int k = 0; k < n2; k++) {
+        complex<double> tempz = (complex<double>)cos(k) * func(ci, n2, currentOmiga);
+        z += tempz;
+        currentOmiga *= omiga;
+    }
+    printf("%.2lf %.2lf\n", z.real(), z.imag());
+    return 0;
+}

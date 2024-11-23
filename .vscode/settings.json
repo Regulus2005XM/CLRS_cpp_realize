@@ -58,6 +58,8 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "vector": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "complex": "cpp",
+    "cmath": "cpp"
   }
 }

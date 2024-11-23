@@ -1,10 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
-// 卷积(convolution)
+/**
+ * @Name 卷积(convolution)
+ * @Input 向量a和b
+ * @Output 向量c
+ * @Change convolutionC，用于计算复数向量的卷积
+ */ 
 vector<double> convolution(const vector<double>& a, const vector<double>& b) {
     int n = a.size();
     int m = b.size();
     vector<double> c(n+m-1, 0.0); // 结果向量，初始值为0
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            c[i + j] += a[i] * b[j]; // 卷积计算
+        }
+    }
+    return c; // 返回卷积结果
+}
+
+vector<complex<double>> convolutionC(const vector<complex<double>>& a,
+ const vector<complex<double>>& b) {
+    int n = a.size();
+    int m = b.size();
+    vector<complex<double>> c(n+m-1, 0.0); // 结果向量，初始值为0
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
             c[i + j] += a[i] * b[j]; // 卷积计算

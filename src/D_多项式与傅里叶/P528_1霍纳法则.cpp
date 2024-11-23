@@ -2,12 +2,22 @@
 using namespace std;
 /**
  * @Name 霍纳法则(horner)
- * @Input 输入：一个多项式系数向量a(a0,a1,...,an)和值x0
+ * @Input 输入：一个多项式(实数)系数向量a(a0,a1,...,an)和值x0
  * @Output 输出：结果值result
+ * @Change hornerC是考虑复数域的霍纳法则
  */
 
 double horner(const vector<double>& a, double x0) {
     double result = 0.0;
+    int n = a.size()-1;
+    for (int i = n; i >= 0; --i) {
+        result = result * x0 + a[i];
+    }
+    return result;
+}
+
+complex<double> hornerC(const vector<complex<double>>& a, complex<double> x0) {
+    complex<double> result = 0.0;
     int n = a.size()-1;
     for (int i = n; i >= 0; --i) {
         result = result * x0 + a[i];
